@@ -1,0 +1,7 @@
+# Table Test
+
+| Name  | Age | Role      |
+|-------|-----|-----------|
+| Alice | 30  | Engineer  |
+| Bob   | 25  | Designer  |
+| Carol | 35  | Manager   |

@@ -1,2 +1,5 @@
 node_modules/
 *.pdf
+docs/*
+!docs/.gitkeep
+.claude/
