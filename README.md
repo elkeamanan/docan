@@ -6,22 +6,23 @@ Markdown to PDF converter with browser preview. Renders mermaid diagrams, GitHub
 
 ```bash
 npm install
+npm link
 ```
 
 ## Usage
 
 ```bash
 # Preview in browser (open in VS Code Simple Browser: Ctrl+Shift+P → "Simple Browser: Show" → http://localhost:3000)
-node bin/docan.js preview docs/rostering/rostering.md
+docan preview docs/rostering/rostering.md
 
 # Preview with dark theme
-node bin/docan.js preview docs/rostering/rostering.md --theme dark
+docan preview docs/rostering/rostering.md --theme dark
 
 # Export to PDF
-node bin/docan.js export docs/rostering/rostering.md -o docs/rostering/rostering.pdf
+docan export docs/rostering/rostering.md -o docs/rostering/rostering.pdf
 
 # Export with options
-node bin/docan.js export docs/rostering/rostering.md -o output.pdf --theme dark --format Letter
+docan export docs/rostering/rostering.md -o output.pdf --theme dark --format Letter
 ```
 
 ### CLI Reference
@@ -71,10 +72,10 @@ mkdir -p docs/my-topic
 # docs/my-topic/my-topic.md
 
 # 3. Preview
-node bin/docan.js preview docs/my-topic/my-topic.md
+docan preview docs/my-topic/my-topic.md
 
 # 4. Export
-node bin/docan.js export docs/my-topic/my-topic.md -o docs/my-topic/my-topic.pdf
+docan export docs/my-topic/my-topic.md -o docs/my-topic/my-topic.pdf
 ```
 
 ### Supported Markdown Features
