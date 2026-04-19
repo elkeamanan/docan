@@ -54,7 +54,7 @@ export function run(argv) {
     .option('--format <size>', 'Page size: A4 or Letter', 'A4')
     .action(async (input, opts) => {
       try {
-        const output = opts.output || input.replace(/\.md$/i, '.pdf');
+        const output = opts.output || basename(input, extname(input)) + '.pdf';
         const html = processMarkdown(input, opts.theme);
         const result = await exportPdf(html, { output, format: opts.format });
         console.log(`PDF exported: ${result}`);
