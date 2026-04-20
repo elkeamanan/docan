@@ -64,6 +64,13 @@ describe('buildTemplate', () => {
       options: {},
       contains: ['.callout-note', '.callout-warning', '.callout-title'],
     },
+    {
+      name: 'success — copy button uses wrapper div not pre',
+      body: '<p>Test</p>',
+      options: {},
+      contains: ['.code-block-wrapper', 'code-block-wrapper', 'wrapper.appendChild(btn)'],
+      notContains: ['pre.hljs .copy-btn', 'pre.appendChild(btn)'],
+    },
   ];
 
   it.each(cases)('$name', ({ body, options, contains, notContains }) => {
