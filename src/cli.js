@@ -37,8 +37,12 @@ export function run(argv) {
     .option('--theme <name>', 'Theme: light or dark', 'light')
     .action(async (input, opts) => {
       try {
+        const absPath = resolve(input);
         const html = processMarkdown(input, opts.theme);
-        await preview(html);
+        await preview(html, {
+          watchPath: absPath,
+          rebuild: () => processMarkdown(input, opts.theme),
+        });
       } catch (err) {
         console.error(`Error: ${err.message}`);
         process.exit(1);
