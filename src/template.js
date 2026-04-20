@@ -74,6 +74,7 @@ table th {
   background-color: var(--color-code-bg);
 }
 table tbody tr { background-color: transparent; }
+table:has(thead th:first-child:empty):has(thead th:last-child:empty) thead { display: none; }
 
 /* Code */
 code {
