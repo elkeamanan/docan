@@ -83,9 +83,9 @@ function createParser() {
         return `<pre class="mermaid">${md.utils.escapeHtml(str)}</pre>`;
       }
       if (lang && hljs.getLanguage(lang)) {
-        return `<pre class="hljs"><code>${hljs.highlight(str, { language: lang }).value}</code></pre>`;
+        return `<div class="code-block"><pre class="hljs"><code>${hljs.highlight(str, { language: lang }).value}</code></pre></div>`;
       }
-      return `<pre class="hljs"><code>${md.utils.escapeHtml(str)}</code></pre>`;
+      return `<div class="code-block"><pre class="hljs"><code>${md.utils.escapeHtml(str)}</code></pre></div>`;
     },
   });
 
