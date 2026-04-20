@@ -73,7 +73,7 @@ table th {
   font-weight: 600;
   background-color: var(--color-code-bg);
 }
-table tr:nth-child(2n) { background-color: var(--color-table-row-alt); }
+table tbody tr { background-color: transparent; }
 
 /* Code */
 code {

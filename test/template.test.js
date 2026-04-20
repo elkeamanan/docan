@@ -55,7 +55,8 @@ describe('buildTemplate', () => {
       name: 'success — base CSS includes table styles',
       body: '<p>Test</p>',
       options: {},
-      contains: ['border-collapse: collapse', 'table th'],
+      contains: ['border-collapse: collapse', 'table th', 'table tbody tr { background-color: transparent; }'],
+      notContains: ['nth-child(2n)'],
     },
     {
       name: 'success — base CSS includes callout styles',
