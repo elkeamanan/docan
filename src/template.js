@@ -145,11 +145,34 @@ pre code {
 /* Strong / Bold */
 strong { font-weight: 600; }
 
+/* Code block copy button */
+pre.hljs {
+  position: relative;
+}
+pre.hljs .copy-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 4px 8px;
+  font-size: 12px;
+  line-height: 1;
+  color: var(--color-fg);
+  background-color: var(--color-code-bg);
+  border: 1px solid var(--color-table-border);
+  border-radius: 4px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+pre.hljs:hover .copy-btn { opacity: 1; }
+pre.hljs .copy-btn:hover { background-color: var(--color-hr); }
+
 /* Print-specific */
 @media print {
   body { max-width: none; padding: 0; }
   pre, code { white-space: pre-wrap !important; word-break: break-all; }
   .mermaid svg { max-width: 100% !important; }
+  .copy-btn { display: none !important; }
 }
 `;
 
@@ -175,6 +198,21 @@ export function buildTemplate(bodyHtml, options = {}) {
   <article class="markdown-body">
     ${bodyHtml}
   </article>
+  <script>
+    document.querySelectorAll('pre.hljs').forEach(function(pre) {
+      var btn = document.createElement('button');
+      btn.className = 'copy-btn';
+      btn.textContent = 'Copy';
+      btn.addEventListener('click', function() {
+        var code = pre.querySelector('code');
+        navigator.clipboard.writeText(code.textContent).then(function() {
+          btn.textContent = 'Copied!';
+          setTimeout(function() { btn.textContent = 'Copy'; }, 2000);
+        });
+      });
+      pre.appendChild(btn);
+    });
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
   <script>
     mermaid.initialize({ startOnLoad: true, theme: '${mermaidTheme}' });
