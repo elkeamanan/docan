@@ -87,6 +87,18 @@ docan export docs/my-topic/my-topic.md -o docs/my-topic/my-topic.pdf
 - **Images** — PNG, JPG, SVG, GIF, WebP (embedded as base64 in output)
 - **Heading anchors** — auto-generated IDs for internal links
 
+## Font Behavior
+
+docan uses the OS system font stack — not a bundled font. PDF output font depends on where `docan export` is run:
+
+| Platform | Font used in PDF |
+|---|---|
+| macOS | **SF Pro** (Apple system font) |
+| Windows | Segoe UI |
+| Linux | Noto Sans / DejaVu Sans (whichever is installed) |
+
+> Since this tool is optimized for macOS, PDFs are expected to render in **SF Pro**. Running export on Linux/CI will produce different typography.
+
 ## Tests
 
 ```bash
