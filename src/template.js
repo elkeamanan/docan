@@ -13,10 +13,22 @@ body {
   line-height: 1.6;
   color: var(--color-fg);
   background-color: var(--color-bg);
-  max-width: 980px;
-  margin: 0 auto;
-  padding: 32px 28px;
   word-wrap: break-word;
+}
+
+@media screen {
+  html {
+    background: #404040;
+    padding: 24px 0;
+    min-height: 100vh;
+  }
+  body {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0 auto;
+    padding: 20mm 15mm;
+    box-shadow: 0 4px 32px rgba(0, 0, 0, 0.6);
+  }
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -36,6 +48,7 @@ a { color: var(--color-link); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
 img { max-width: 100%; height: auto; border-style: none; }
+table td img { height: 20px; width: auto; max-width: none; }
 
 hr {
   height: 0.25em;
@@ -168,9 +181,8 @@ strong { font-weight: 600; }
 .code-block-wrapper:hover .copy-btn { opacity: 1; }
 .code-block-wrapper .copy-btn:hover { background-color: var(--color-hr); }
 
-/* Print-specific */
 @media print {
-  body { max-width: none; padding: 0; }
+  body { padding: 0; }
   pre, code { white-space: pre-wrap !important; word-break: break-all; }
   .mermaid svg { max-width: 100% !important; }
   .copy-btn { display: none !important; }
