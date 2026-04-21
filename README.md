@@ -86,6 +86,19 @@ docan export docs/my-topic/my-topic.md -o docs/my-topic/my-topic.pdf
 - **Syntax highlighting** — all major languages
 - **Images** — PNG, JPG, SVG, GIF, WebP (embedded as base64 in output)
 - **Heading anchors** — auto-generated IDs for internal links
+- **Page breaks** — insert `<!-- pagebreak -->` anywhere to force a new page in PDF export
+
+```md
+## Section One
+
+Some content here.
+
+<!-- pagebreak -->
+
+## Section Two
+
+Starts on a new page in the exported PDF.
+```
 
 ## Font Behavior
 
