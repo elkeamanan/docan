@@ -28,6 +28,7 @@ body {
     margin: 0 auto;
     padding: 20mm 15mm;
     box-shadow: 0 4px 32px rgba(0, 0, 0, 0.6);
+    background-color: var(--color-bg);
   }
 }
 
@@ -257,7 +258,7 @@ export function buildPaginatedTemplate(bodyHtml, options = {}) {
   min-height: 100vh;
 }
 .pagedjs_page {
-  background: white;
+  background: var(--color-bg);
   box-shadow: 0 4px 32px rgba(0, 0, 0, 0.6);
   margin-bottom: 24px !important;
 }
