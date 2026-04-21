@@ -183,6 +183,7 @@ strong { font-weight: 600; }
 
 @media print {
   body { padding: 0; }
+  .page-break { break-after: page; page-break-after: always; }
   pre, code { white-space: pre-wrap !important; word-break: break-all; }
   .mermaid svg { max-width: 100% !important; }
   .copy-btn { display: none !important; }

@@ -98,5 +98,5 @@ function createParser() {
 export function parse(markdown) {
   const md = createParser();
   const html = md.render(markdown);
-  return html.replace(/<!--\s*pagebreak\s*-->/gi, '<div style="page-break-after: always"></div>');
+  return html.replace(/<!--\s*pagebreak\s*-->/gi, '<div class="page-break"></div>');
 }
