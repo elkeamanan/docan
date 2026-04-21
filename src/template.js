@@ -240,6 +240,56 @@ export function buildTemplate(bodyHtml, options = {}) {
 </html>`;
 }
 
+export function buildPaginatedTemplate(bodyHtml, options = {}) {
+  const { theme = 'light', title = 'Document' } = options;
+  const themeVars = loadThemeVars(theme);
+  const mermaidTheme = theme === 'dark' ? 'dark' : 'default';
+
+  const PAGINATED_CSS = `
+@page { size: A4; margin: 20mm 15mm; }
+.pagedjs_pages {
+  background: #404040;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 0;
+  min-height: 100vh;
+}
+.pagedjs_page {
+  background: white;
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.6);
+  margin-bottom: 24px !important;
+}
+`;
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${escapeHtml(title)}</title>
+  <style>${themeVars}\n${BASE_CSS}\n${PAGINATED_CSS}</style>
+</head>
+<body>
+  <article class="markdown-body">
+    ${bodyHtml}
+  </article>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({ startOnLoad: true, theme: '${mermaidTheme}' });
+    window.__mermaidReady = false;
+    var done = function() {
+      window.__mermaidReady = true;
+      var s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/pagedjs/dist/paged.polyfill.js';
+      document.head.appendChild(s);
+    };
+    mermaid.run().then(done).catch(done);
+  </script>
+</body>
+</html>`;
+}
+
 function escapeHtml(str) {
   return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }

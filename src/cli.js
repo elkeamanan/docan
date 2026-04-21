@@ -3,10 +3,10 @@ import { readFileSync } from 'node:fs';
 import { resolve, dirname, basename, extname } from 'node:path';
 import { parse } from './parser.js';
 import { resolveImages } from './image-resolver.js';
-import { buildTemplate } from './template.js';
+import { buildTemplate, buildPaginatedTemplate } from './template.js';
 import { preview, exportPdf } from './renderer.js';
 
-function processMarkdown(inputPath, theme) {
+function processMarkdown(inputPath, theme, paginated = false) {
   const absPath = resolve(inputPath);
   const baseDir = dirname(absPath);
   const title = basename(absPath, extname(absPath));
@@ -19,7 +19,8 @@ function processMarkdown(inputPath, theme) {
     console.warn(`[warn] ${w}`);
   }
 
-  return buildTemplate(resolvedHtml, { theme, title });
+  const builder = paginated ? buildPaginatedTemplate : buildTemplate;
+  return builder(resolvedHtml, { theme, title });
 }
 
 export function run(argv) {
@@ -35,13 +36,14 @@ export function run(argv) {
     .description('Preview markdown in browser')
     .argument('<input>', 'Input markdown file')
     .option('--theme <name>', 'Theme: light or dark', 'light')
+    .option('--paginated', 'Paginated preview — exact PDF layout with page breaks')
     .action(async (input, opts) => {
       try {
         const absPath = resolve(input);
-        const html = processMarkdown(input, opts.theme);
+        const html = processMarkdown(input, opts.theme, opts.paginated);
         await preview(html, {
           watchPath: absPath,
-          rebuild: () => processMarkdown(input, opts.theme),
+          rebuild: () => processMarkdown(input, opts.theme, opts.paginated),
         });
       } catch (err) {
         console.error(`Error: ${err.message}`);
