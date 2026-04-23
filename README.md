@@ -82,7 +82,7 @@ docan export docs/my-topic/my-topic.md -o docs/my-topic/my-topic.pdf
 
 - **GitHub Flavored Markdown** — tables, task lists, strikethrough
 - **Mermaid diagrams** — fenced code blocks with `mermaid` language
-- **GitHub callouts** — `> [!NOTE]`, `> [!TIP]`, `> [!IMPORTANT]`, `> [!WARNING]`, `> [!CAUTION]`
+- **GitHub callouts** — `> [!NOTE]`, `> [!TIP]`, `> [!IMPORTANT]`, `> [!WARNING]`, `> [!CAUTION]`, `> [!HIGHLIGHT]` (grey, no title)
 - **Syntax highlighting** — all major languages
 - **Images** — PNG, JPG, SVG, GIF, WebP (embedded as base64 in output)
 - **Heading anchors** — auto-generated IDs for internal links
