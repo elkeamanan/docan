@@ -8,9 +8,10 @@ const CALLOUT_TYPES = {
   IMPORTANT: { icon: '📌', label: 'Important', cssClass: 'callout-important' },
   WARNING: { icon: '⚠️', label: 'Warning', cssClass: 'callout-warning' },
   CAUTION: { icon: '🚨', label: 'Caution', cssClass: 'callout-caution' },
+  HIGHLIGHT: { icon: '', label: '', cssClass: 'callout-highlight', noTitle: true },
 };
 
-const CALLOUT_REGEX = /^\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\s*\n?/;
+const CALLOUT_REGEX = /^\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION|HIGHLIGHT)\]\s*\n?/;
 
 function calloutPlugin(md) {
   const defaultRender = md.renderer.rules.blockquote_open || function (tokens, idx, options, env, self) {
@@ -40,12 +41,12 @@ function calloutPlugin(md) {
         stripCalloutPrefix(inlineToken.children, match[0]);
       }
 
-      const iconToken = new state.Token('html_inline', '', 0);
-      iconToken.content = `<p class="callout-title"><span class="callout-icon">${callout.icon}</span> ${callout.label}</p>`;
-
-      const insertIdx = contentIdx;
-      tokens.splice(insertIdx, 0, iconToken);
-      i++;
+      if (!callout.noTitle) {
+        const iconToken = new state.Token('html_inline', '', 0);
+        iconToken.content = `<p class="callout-title"><span class="callout-icon">${callout.icon}</span> ${callout.label}</p>`;
+        tokens.splice(contentIdx, 0, iconToken);
+        i++;
+      }
     }
   });
 }

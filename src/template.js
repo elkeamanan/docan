@@ -147,6 +147,8 @@ pre code {
 .callout-warning .callout-title { color: var(--callout-warning-fg); }
 .callout-caution { background-color: var(--callout-caution-bg); border-left-color: var(--callout-caution-border); }
 .callout-caution .callout-title { color: var(--callout-caution-fg); }
+.callout-highlight { background-color: var(--callout-highlight-bg); border-left-color: var(--callout-highlight-border); }
+.callout-highlight .callout-title { color: var(--callout-highlight-fg); }
 
 /* Mermaid */
 .mermaid {

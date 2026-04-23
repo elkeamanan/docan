@@ -27,4 +27,8 @@
   --callout-caution-bg: #ffebe9;
   --callout-caution-border: #ff8182;
   --callout-caution-fg: #d1242f;
+
+  --callout-highlight-bg: #f6f8fa;
+  --callout-highlight-border: #8b949e;
+  --callout-highlight-fg: #57606a;
 }
