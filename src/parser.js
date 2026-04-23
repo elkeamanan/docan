@@ -3,11 +3,11 @@ import anchor from 'markdown-it-anchor';
 import hljs from 'highlight.js';
 
 const CALLOUT_TYPES = {
-  NOTE: { icon: 'i', label: 'Note', cssClass: 'callout-note' },
+  NOTE: { icon: 'ℹ️', label: 'Note', cssClass: 'callout-note' },
   TIP: { icon: '💡', label: 'Tip', cssClass: 'callout-tip' },
-  IMPORTANT: { icon: '!', label: 'Important', cssClass: 'callout-important' },
-  WARNING: { icon: '⚠', label: 'Warning', cssClass: 'callout-warning' },
-  CAUTION: { icon: '🔴', label: 'Caution', cssClass: 'callout-caution' },
+  IMPORTANT: { icon: '📌', label: 'Important', cssClass: 'callout-important' },
+  WARNING: { icon: '⚠️', label: 'Warning', cssClass: 'callout-warning' },
+  CAUTION: { icon: '🚨', label: 'Caution', cssClass: 'callout-caution' },
 };
 
 const CALLOUT_REGEX = /^\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\s*\n?/;
