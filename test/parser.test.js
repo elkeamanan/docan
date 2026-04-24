@@ -29,6 +29,26 @@ describe('parse', () => {
       expected: { notContains: ['<code>'] },
     },
     {
+      name: 'success — mermaid w= sets max-width style',
+      input: '```mermaid w=400px\nerDiagram\n  FOO { int id }\n```',
+      expected: { contains: ['class="mermaid"', 'max-width:400px'] },
+    },
+    {
+      name: 'success — mermaid width= sets max-width style',
+      input: '```mermaid width=50%\nerDiagram\n  FOO { int id }\n```',
+      expected: { contains: ['class="mermaid"', 'max-width:50%'] },
+    },
+    {
+      name: 'edge — mermaid without w= has no inline style',
+      input: '```mermaid\ngraph LR\n  A-->B\n```',
+      expected: { notContains: ['max-width'] },
+    },
+    {
+      name: 'edge — mermaid w= rejects invalid unit',
+      input: '```mermaid w=400abc\ngraph LR\n  A-->B\n```',
+      expected: { notContains: ['max-width'] },
+    },
+    {
       name: 'success — NOTE callout rendered',
       input: '> [!NOTE]\n> This is a note.',
       expected: { contains: ['callout-note', 'callout-title', 'Note'] },

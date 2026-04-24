@@ -79,9 +79,11 @@ function createParser() {
     html: true,
     linkify: true,
     typographer: true,
-    highlight(str, lang) {
+    highlight(str, lang, attrs) {
       if (lang === 'mermaid') {
-        return `<pre class="mermaid">${md.utils.escapeHtml(str)}</pre>`;
+        const widthMatch = (attrs || '').match(/\bw(?:idth)?=([0-9]+(?:\.[0-9]+)?(?:px|%|em|rem|vw))/);
+        const style = widthMatch ? ` style="max-width:${widthMatch[1]};margin:0 auto;"` : '';
+        return `<pre class="mermaid"${style}>${md.utils.escapeHtml(str)}</pre>`;
       }
       if (lang && hljs.getLanguage(lang)) {
         return `<pre class="hljs"><code>${hljs.highlight(str, { language: lang }).value}</code></pre>`;
