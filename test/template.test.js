@@ -78,6 +78,20 @@ describe('buildTemplate', () => {
       contains: ['.mermaid svg'],
     },
     {
+      name: 'success — centers No/# columns in non-paginated template',
+      body: '<p>Test</p>',
+      options: {},
+      contains: [
+        'centerNumericColumns',
+        'CENTER_HEADER_PATTERNS',
+        "'no'",
+        "'no.'",
+        "'#'",
+        "textAlign = 'center'",
+        'centerNumericColumns();',
+      ],
+    },
+    {
       name: 'success — er and classDiagram get taller max-height in CSS',
       body: '<p>Test</p>',
       options: {},

@@ -251,6 +251,7 @@ export function buildTemplate(bodyHtml, options = {}) {
     mermaid.initialize({ startOnLoad: true, theme: '${mermaidTheme}' });
 
     var MERMAID_MAX_HEIGHT = { 'er': '900px', 'class': '900px' };
+    var CENTER_HEADER_PATTERNS = ['no', 'no.', '#'];
 
     function constrainMermaid() {
       document.querySelectorAll('.mermaid svg').forEach(function(svg) {
@@ -268,10 +269,26 @@ export function buildTemplate(bodyHtml, options = {}) {
       });
     }
 
+    function centerNumericColumns() {
+      document.querySelectorAll('.markdown-body table').forEach(function(table) {
+        var headerCells = table.querySelectorAll('thead tr th, thead tr td');
+        var centerCols = {};
+        headerCells.forEach(function(th, i) {
+          var txt = (th.textContent || '').trim().toLowerCase();
+          if (CENTER_HEADER_PATTERNS.indexOf(txt) !== -1) centerCols[i] = true;
+        });
+        if (Object.keys(centerCols).length === 0) return;
+        table.querySelectorAll('tr').forEach(function(row) {
+          Array.from(row.querySelectorAll('th, td')).forEach(function(cell, i) {
+            if (centerCols[i]) cell.style.textAlign = 'center';
+          });
+        });
+      });
+    }
+
     window.__mermaidReady = false;
-    mermaid.run()
-      .then(function() { constrainMermaid(); window.__mermaidReady = true; })
-      .catch(function() { constrainMermaid(); window.__mermaidReady = true; });
+    var done = function() { constrainMermaid(); centerNumericColumns(); window.__mermaidReady = true; };
+    mermaid.run().then(done).catch(done);
   </script>
 </body>
 </html>`;
