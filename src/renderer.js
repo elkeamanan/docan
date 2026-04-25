@@ -3,6 +3,37 @@ import { createServer } from 'node:http';
 import { watch } from 'node:fs';
 
 const MERMAID_TIMEOUT = 30000;
+const SPINNER_FRAMES = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
+
+function createSpinner() {
+  let frame = 0;
+  let text = '';
+  let timer = null;
+
+  function render() {
+    process.stderr.write(`\r\x1b[K  ${SPINNER_FRAMES[frame]} ${text}`);
+    frame = (frame + 1) % SPINNER_FRAMES.length;
+  }
+
+  return {
+    start(msg) {
+      text = msg;
+      render();
+      timer = setInterval(render, 80);
+    },
+    update(msg) {
+      text = msg;
+    },
+    stop(msg) {
+      clearInterval(timer);
+      process.stderr.write(`\r\x1b[K  ✔ ${msg}\n`);
+    },
+    fail(msg) {
+      clearInterval(timer);
+      process.stderr.write(`\r\x1b[K  ✖ ${msg}\n`);
+    },
+  };
+}
 
 const RELOAD_SCRIPT = `<script>
   (function() {
@@ -75,6 +106,9 @@ export async function preview(initialHtml, options = {}) {
 
 export async function exportPdf(html, options = {}) {
   const { output = 'output.pdf', format = 'A4' } = options;
+  const spinner = createSpinner();
+
+  spinner.start('Launching browser...');
   const browser = await puppeteer.launch({
     headless: true,
     args: ['--allow-file-access-from-files', '--no-sandbox'],
@@ -82,9 +116,14 @@ export async function exportPdf(html, options = {}) {
 
   try {
     const page = await browser.newPage();
+
+    spinner.update('Loading document and external assets...');
     await page.setContent(html, { waitUntil: 'networkidle0' });
+
+    spinner.update('Rendering mermaid diagrams...');
     await waitForMermaid(page);
 
+    spinner.update(`Generating PDF (${format})...`);
     await page.pdf({
       path: output,
       format,
@@ -92,7 +131,11 @@ export async function exportPdf(html, options = {}) {
       margin: { top: '20mm', right: '15mm', bottom: '20mm', left: '15mm' },
     });
 
+    spinner.stop(`PDF exported: ${output}`);
     return output;
+  } catch (err) {
+    spinner.fail(`Export failed: ${err.message}`);
+    throw err;
   } finally {
     await browser.close();
   }

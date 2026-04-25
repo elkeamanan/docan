@@ -62,8 +62,7 @@ export function run(argv) {
       try {
         const output = opts.output || basename(input, extname(input)) + '.pdf';
         const html = processMarkdown(input, opts.theme);
-        const result = await exportPdf(html, { output, format: opts.format });
-        console.log(`PDF exported: ${result}`);
+        await exportPdf(html, { output, format: opts.format });
       } catch (err) {
         console.error(`Error: ${err.message}`);
         process.exit(1);
