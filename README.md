@@ -81,7 +81,7 @@ docan export docs/my-topic/my-topic.md -o docs/my-topic/my-topic.pdf
 ### Supported Markdown Features
 
 - **GitHub Flavored Markdown** — tables, task lists, strikethrough
-- **Mermaid diagrams** — fenced code blocks with `mermaid` language
+- **Mermaid diagrams** — fenced code blocks with `mermaid` language. Supports `dir=` attribute to control layout direction (`TB`, `BT`, `LR`, `RL`) and `width=` to constrain width
 - **GitHub callouts** — `> [!NOTE]`, `> [!TIP]`, `> [!IMPORTANT]`, `> [!WARNING]`, `> [!CAUTION]`, `> [!HIGHLIGHT]` (grey, no title)
 - **Syntax highlighting** — all major languages
 - **Images** — PNG, JPG, SVG, GIF, WebP (embedded as base64 in output)
@@ -99,6 +99,18 @@ Some content here.
 
 Starts on a new page in the exported PDF.
 ```
+
+#### Mermaid Diagram Direction
+
+Use `dir=` to control diagram flow direction — useful for large ERDs and class diagrams that overflow vertically:
+
+````md
+```mermaid dir=LR
+erDiagram
+    users ||--o{ orders : places
+    orders ||--|{ line_items : contains
+```
+````
 
 ## Font Behavior
 

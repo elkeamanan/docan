@@ -83,7 +83,20 @@ function createParser() {
       if (lang === 'mermaid') {
         const widthMatch = (attrs || '').match(/\bw(?:idth)?=([0-9]+(?:\.[0-9]+)?(?:px|%|em|rem|vw))/);
         const style = widthMatch ? ` style="max-width:${widthMatch[1]};margin:0 auto;"` : '';
-        return `<pre class="mermaid"${style}>${md.utils.escapeHtml(str)}</pre>`;
+
+        // Support dir=LR|RL|TB|BT to control diagram direction
+        const dirMatch = (attrs || '').match(/\bdir(?:ection)?=(TB|BT|LR|RL)\b/i);
+        let mermaidStr = str;
+        if (dirMatch) {
+          const dir = dirMatch[1].toUpperCase();
+          // Inject "direction XX" after the first line (the diagram type declaration)
+          const firstNewline = mermaidStr.indexOf('\n');
+          if (firstNewline !== -1) {
+            mermaidStr = mermaidStr.slice(0, firstNewline) + '\n    direction ' + dir + mermaidStr.slice(firstNewline);
+          }
+        }
+
+        return `<pre class="mermaid"${style}>${md.utils.escapeHtml(mermaidStr)}</pre>`;
       }
       if (lang && hljs.getLanguage(lang)) {
         return `<pre class="hljs"><code>${hljs.highlight(str, { language: lang }).value}</code></pre>`;
