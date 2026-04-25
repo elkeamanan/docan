@@ -107,6 +107,12 @@ describe('buildTemplate', () => {
       options: {},
       contains: ['MERMAID_MAX_HEIGHT', "aria-roledescription", "MERMAID_MAX_HEIGHT[type] || '500px'"],
     },
+    {
+      name: 'success — constrainMermaid scales width for data-max-height',
+      body: '<p>Test</p>',
+      options: {},
+      contains: ['data-max-height', 'parseToPixels', "vbW * scale"],
+    },
   ];
 
   it.each(cases)('$name', ({ body, options, contains, notContains }) => {
@@ -216,6 +222,12 @@ describe('buildPaginatedTemplate', () => {
       options: {},
       contains: ['constrainMermaid', "style.maxWidth = '100%'", "style.height = 'auto'", 'viewBox', "setAttribute('width', vbW)", "removeAttribute('height')"],
       notContains: ["removeAttribute('width')", "style.width = 'auto'"],
+    },
+    {
+      name: 'success — paginated constrainMermaid scales width for data-max-height',
+      body: '<p>Test</p>',
+      options: {},
+      contains: ['data-max-height', 'parseToPixels', "vbW * scale"],
     },
   ];
 

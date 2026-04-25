@@ -253,16 +253,35 @@ export function buildTemplate(bodyHtml, options = {}) {
     var MERMAID_MAX_HEIGHT = { 'er': '900px', 'class': '900px' };
     var CENTER_HEADER_PATTERNS = ['no', 'no.', '#'];
 
+    function parseToPixels(val) {
+      var num = parseFloat(val);
+      if (isNaN(num)) return null;
+      if (/mm$/.test(val)) return num * 3.7795;
+      if (/em$/.test(val) || /rem$/.test(val)) return num * 16;
+      return num;
+    }
+
     function constrainMermaid() {
       document.querySelectorAll('.mermaid svg').forEach(function(svg) {
         var vb = svg.getAttribute('viewBox');
+        var vbW = 0, vbH = 0;
         if (vb) {
           var parts = vb.split(/[\\s,]+/);
-          var vbW = parseFloat(parts[2]);
+          vbW = parseFloat(parts[2]);
+          vbH = parseFloat(parts[3]);
           if (vbW > 0) svg.setAttribute('width', vbW);
         }
         svg.removeAttribute('height');
         svg.style.maxWidth = '100%';
+        var pre = svg.closest('.mermaid');
+        var explicit = pre && pre.getAttribute('data-max-height');
+        if (explicit && vbW > 0 && vbH > 0) {
+          var targetH = parseToPixels(explicit);
+          if (targetH && vbH > targetH) {
+            var scale = targetH / vbH;
+            svg.setAttribute('width', vbW * scale);
+          }
+        }
         var type = svg.getAttribute('aria-roledescription') || '';
         svg.style.maxHeight = MERMAID_MAX_HEIGHT[type] || '500px';
         svg.style.height = 'auto';
@@ -337,16 +356,35 @@ export function buildPaginatedTemplate(bodyHtml, options = {}) {
 
     var MERMAID_MAX_HEIGHT = { 'er': '900px', 'class': '900px' };
 
+    function parseToPixels(val) {
+      var num = parseFloat(val);
+      if (isNaN(num)) return null;
+      if (/mm$/.test(val)) return num * 3.7795;
+      if (/em$/.test(val) || /rem$/.test(val)) return num * 16;
+      return num;
+    }
+
     function constrainMermaid() {
       document.querySelectorAll('.mermaid svg').forEach(function(svg) {
         var vb = svg.getAttribute('viewBox');
+        var vbW = 0, vbH = 0;
         if (vb) {
           var parts = vb.split(/[\\s,]+/);
-          var vbW = parseFloat(parts[2]);
+          vbW = parseFloat(parts[2]);
+          vbH = parseFloat(parts[3]);
           if (vbW > 0) svg.setAttribute('width', vbW);
         }
         svg.removeAttribute('height');
         svg.style.maxWidth = '100%';
+        var pre = svg.closest('.mermaid');
+        var explicit = pre && pre.getAttribute('data-max-height');
+        if (explicit && vbW > 0 && vbH > 0) {
+          var targetH = parseToPixels(explicit);
+          if (targetH && vbH > targetH) {
+            var scale = targetH / vbH;
+            svg.setAttribute('width', vbW * scale);
+          }
+        }
         var type = svg.getAttribute('aria-roledescription') || '';
         svg.style.maxHeight = MERMAID_MAX_HEIGHT[type] || '500px';
         svg.style.height = 'auto';

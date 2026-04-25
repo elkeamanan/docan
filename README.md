@@ -81,7 +81,7 @@ docan export docs/my-topic/my-topic.md -o docs/my-topic/my-topic.pdf
 ### Supported Markdown Features
 
 - **GitHub Flavored Markdown** — tables, task lists, strikethrough
-- **Mermaid diagrams** — fenced code blocks with `mermaid` language. Supports `dir=` attribute to control layout direction (`TB`, `BT`, `LR`, `RL`) and `width=` to constrain width
+- **Mermaid diagrams** — fenced code blocks with `mermaid` language. Supports `dir=` for layout direction (`TB`, `BT`, `LR`, `RL`), `w=`/`width=` to constrain width, and `h=`/`height=` to constrain height
 - **GitHub callouts** — `> [!NOTE]`, `> [!TIP]`, `> [!IMPORTANT]`, `> [!WARNING]`, `> [!CAUTION]`, `> [!HIGHLIGHT]` (grey, no title)
 - **Syntax highlighting** — all major languages
 - **Images** — PNG, JPG, SVG, GIF, WebP (embedded as base64 in output)
@@ -100,12 +100,20 @@ Some content here.
 Starts on a new page in the exported PDF.
 ```
 
-#### Mermaid Diagram Direction
+#### Mermaid Diagram Attributes
 
-Use `dir=` to control diagram flow direction — useful for large ERDs and class diagrams that overflow vertically:
+Use attributes after the `mermaid` language tag to control rendering:
+
+| Attribute | Example | Description |
+|-----------|---------|-------------|
+| `dir=` / `direction=` | `dir=LR` | Layout direction: `TB`, `BT`, `LR`, `RL` |
+| `w=` / `width=` | `w=600px` | Constrain max width (px, %, em, rem, vw) |
+| `h=` / `height=` | `h=400px` | Constrain max height (px, %, em, rem, vh, mm) |
+
+Attributes can be combined:
 
 ````md
-```mermaid dir=LR
+```mermaid dir=LR h=400px
 erDiagram
     users ||--o{ orders : places
     orders ||--|{ line_items : contains

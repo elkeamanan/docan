@@ -49,6 +49,41 @@ describe('parse', () => {
       expected: { notContains: ['max-width'] },
     },
     {
+      name: 'success — mermaid h= sets data-max-height attr',
+      input: '```mermaid h=400px\nerDiagram\n  FOO { int id }\n```',
+      expected: { contains: ['data-max-height="400px"'] },
+    },
+    {
+      name: 'success — mermaid height= sets data-max-height attr',
+      input: '```mermaid height=300px\nerDiagram\n  FOO { int id }\n```',
+      expected: { contains: ['data-max-height="300px"'] },
+    },
+    {
+      name: 'success — mermaid h= accepts mm unit',
+      input: '```mermaid h=200mm\nerDiagram\n  FOO { int id }\n```',
+      expected: { contains: ['data-max-height="200mm"'] },
+    },
+    {
+      name: 'success — mermaid w= and h= combined',
+      input: '```mermaid w=600px h=400px\nerDiagram\n  FOO { int id }\n```',
+      expected: { contains: ['max-width:600px', 'data-max-height="400px"'] },
+    },
+    {
+      name: 'success — mermaid h= does not add inline max-height style',
+      input: '```mermaid h=400px\nerDiagram\n  FOO { int id }\n```',
+      expected: { notContains: ['max-height:400px'] },
+    },
+    {
+      name: 'edge — mermaid without h= has no data-max-height attr',
+      input: '```mermaid\ngraph LR\n  A-->B\n```',
+      expected: { notContains: ['data-max-height'] },
+    },
+    {
+      name: 'edge — mermaid h= rejects invalid unit',
+      input: '```mermaid h=400abc\ngraph LR\n  A-->B\n```',
+      expected: { notContains: ['data-max-height'] },
+    },
+    {
       name: 'success — NOTE callout rendered',
       input: '> [!NOTE]\n> This is a note.',
       expected: { contains: ['callout-note', 'callout-title', 'Note'] },
